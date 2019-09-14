@@ -52,7 +52,7 @@ COPY ./compose/bots_complete/supervisord.conf /etc/supervisor/supervisord.conf
 # Add Crontab file
 COPY ./compose/bots_complete/crontab /usr/local/lib/python2.7/dist-packages/bots/config/
 
-CMD [ /usr/local/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf" ]
+CMD [ "/usr/local/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf" ]
 
 EXPOSE 8080
 EXPOSE 9001

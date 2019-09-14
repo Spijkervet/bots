@@ -631,7 +631,7 @@ def delete(request, *kw, **kwargs):
                     cursor.execute('''DELETE FROM ta''')
                     cursor.execute('''DELETE FROM filereport''')
                     cursor.execute('''DELETE FROM report''')
-                    transaction.commit_unless_managed()
+                    transaction.atomic()
                     messages.add_message(request, messages.INFO, _('Transactions are deleted.'))
                     botsglobal.logger.info(_('Transactions are deleted.'))
                     #clean data files
@@ -686,14 +686,14 @@ def delete(request, *kw, **kwargs):
                     cursor = connection.cursor()
                     cursor.execute('''DELETE FROM ccode''')
                     cursor.execute('''DELETE FROM ccodetrigger''')
-                    transaction.commit_unless_managed()
+                    transaction.atomic()
                     notification = _('User code lists are deleted.')
                     messages.add_message(request, messages.INFO, notification)
                     botsglobal.logger.info(notification)
                 if form.cleaned_data['delpersist']:
                     cursor = connection.cursor()
                     cursor.execute('''DELETE FROM persist''')
-                    transaction.commit_unless_managed()
+                    transaction.atomic()
                     notification = _('Persist data is deleted.')
                     messages.add_message(request, messages.INFO, notification)
                     botsglobal.logger.info(notification)
@@ -745,7 +745,7 @@ def runengine(request, *kw, **kwargs):
         #either bots-engine is run directly or via jobqueue-server:
         # run bots-engine via jobqueue-server; reports back if job is queued
         if botsglobal.ini.getboolean('jobqueue', 'enabled', False):
-            import job2queue
+            from . import job2queue
             terug = job2queue.send_job_to_jobqueue(lijst)
             messages.add_message(request, messages.INFO, job2queue.JOBQUEUEMESSAGE2TXT[terug])
             botsglobal.logger.info(job2queue.JOBQUEUEMESSAGE2TXT[terug])

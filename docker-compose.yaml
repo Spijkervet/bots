@@ -1,28 +1,39 @@
-version: '2'
+version: '3'
 
 # Purpose is to test compatibility in Python 2.7 and Python 3.4
 # TODO: add tests
 # Brings up two machines, one with python 3.4 one with python 2.7
 # Database by SQLITE
 # Config settings copied from install
-
 services:
-  bots36:
+  bots_complete_py36:
     build:
       context: .
-      dockerfile: ./compose/bots_py36/Dockerfile
+      dockerfile: ./compose/bots_complete_py36/Dockerfile
     ports:
       - "0.0.0.0:8080:8080"
-  bots34:
-    build:
-      context: .
-      dockerfile: ./compose/bots_py34/Dockerfile
-    ports:
-      - "0.0.0.0:8080:8080"
-  bots27:
-    build:
-      context: .
-      dockerfile: ./compose/bots_py27/Dockerfile
-    ports:
-      - "0.0.0.0:8081:8080"
+    environment:
+      - SUPERVUSER=bots
+      - SUPERVPASS=botsbots
+  # bots36:
+  #   build:
+  #     context: .
+  #     dockerfile: ./compose/bots_py36/Dockerfile
+  #   ports:
+  #     - "0.0.0.0:8080:8080"
+  #   environment:
+  #     - SUPERVUSER=bots
+  #     - SUPERVPASS=botsbots
+  # bots34:
+  #   build:
+  #     context: .
+  #     dockerfile: ./compose/bots_py34/Dockerfile
+  #   ports:
+  #     - "0.0.0.0:8080:8080"
+  # bots27:
+  #   build:
+  #     context: .
+  #     dockerfile: ./compose/bots_py27/Dockerfile
+  #   ports:
+  #     - "0.0.0.0:8081:8080"
 
